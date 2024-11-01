@@ -1,6 +1,7 @@
 "use client";
 
 import { IUser } from "@/backend/models/user";
+import { useDeleteUserMutation } from "@/redux/api/userApi";
 // import { useDeleteUserMutation } from "@/redux/api/userApi";
 import { MDBDataTable } from "mdbreact";
 import Link from "next/link";
@@ -19,18 +20,19 @@ const AllUsers = ({ data }: Props) => {
 
   const router = useRouter();
 
-  // const [deleteUser, { error, isLoading, isSuccess }] = useDeleteUserMutation();
+  const [deleteUser, { error, isLoading, isSuccess }] = 
+  useDeleteUserMutation();
 
-  // useEffect(() => {
-  //   if (error && "data" in error) {
-  //     toast.error(error?.data?.errMessage);
-  //   }
+  useEffect(() => {
+    if (error && "data" in error) {
+      toast.error((error.data as any).message || 'Something went wrong');
+    }
 
-  //   if (isSuccess) {
-  //     router.refresh();
-  //     toast.success("User deleted");
-  //   }
-  // }, [error, isSuccess]);
+    if (isSuccess) {
+      router.refresh();
+      toast.success("User deleted");
+    }
+  }, [error, isSuccess]);
 
   const setUsers = () => {
     const data: { columns: any[]; rows: any[] } = {
@@ -82,8 +84,8 @@ const AllUsers = ({ data }: Props) => {
 
             <button
               className="btn btn-outline-danger mx-2"
-              // disabled={isLoading}
-              // onClick={() => deleteUserHandler(user?._id)}
+              disabled={isLoading}
+              onClick={() => deleteUserHandler(user._id as string)}
             >
               <i className="fa fa-trash"></i>
             </button>
@@ -95,9 +97,9 @@ const AllUsers = ({ data }: Props) => {
     return data;
   };
 
-  // const deleteUserHandler = (id: string) => {
-  //   deleteUser(id);
-  // };
+  const deleteUserHandler = (id: string) => {
+    deleteUser(id);
+  };
 
   return (
     <div className="container">

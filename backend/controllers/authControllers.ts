@@ -176,10 +176,10 @@ export const allAdminUsers = catchAsyncErrors(async (req: NextRequest) => {
 // Get user details  =>  /api/admin/users/:id
 export const getUserDetails = catchAsyncErrors(
   async (req: NextRequest, { params }: { params: { id: string } }) => {
-    const user = await User.findById(params.id);
+    const user = await User.findById(params.id)
 
-    if (!user) {
-      throw new ErrorHandler("User not found with this ID", 404);
+    if(!user) {
+      throw new ErrorHandler('User not found with this ID', 404)
     }
 
     return NextResponse.json({

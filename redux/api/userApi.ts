@@ -43,9 +43,17 @@ export const userApi = createApi({
     updateUser: builder.mutation({
       query({id, body}) {
         return {
-          url: `/admin/user/${id}`,
+          url: `/admin/users/${id}`,
           method: "PUT",
           body,
+        };
+      },
+    }),
+    deleteUser: builder.mutation({
+      query(id) {
+        return {
+          url: `/admin/users/${id}`,
+          method: "DELETE",
         };
       },
     }),
@@ -58,4 +66,5 @@ export const {
   useUpdatePasswordMutation,
   useUploadAvatarMutation,
   useUpdateUserMutation,
+  useDeleteUserMutation,
 } = userApi;
